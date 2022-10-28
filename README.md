@@ -22,6 +22,25 @@ npm install @angular/cdk
 npm i js-sha512
 ``` 
 
+## Connect App to Firesbase
+
+```bash
+## Connection Object in src/environments/environment.ts:
+export const environment = {
+  firebase: {
+    apiKey: "{your-api-key}",
+    authDomain: "{your-auth-domain}",
+    projectId: "{your-project-id}",
+    storageBucket: "{your-storage-bucket}",
+    messagingSenderId: "{your-messaging-sender}",
+    appId: "{your-app-id}",
+    databaseURL: "{your-database-url}",
+    measurementId: "{your-measurement-id}",
+  },
+  production: false
+};
+``` 
+
 ## Firebase Services
 
 ```bash

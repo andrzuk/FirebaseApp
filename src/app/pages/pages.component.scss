@@ -1,0 +1,29 @@
+h5.card-header {
+    span.key {
+        font-size: 0.75em;
+        font-weight: normal;
+        padding: 1em;
+    }
+}
+a {
+    color: #369 !important;
+    :hover {
+        cursor: pointer;
+    }
+}
+div.alert {
+    text-align: center;
+    margin: 0;
+}
+textarea {
+    height: 20em;
+}
+span.label {
+    display: inline-block;
+    width: 50px;
+    padding: 0.2em 0;
+}
+span.value {
+    display: inline-block;
+    font-weight: bold;
+}

@@ -1,0 +1,9 @@
+<div class="container" *ngIf="resume">
+    <div class="row">
+        <div class="col">
+            <div class="content">
+                <div [innerHTML]="pageContent | sanitizeHtml"></div>
+            </div>
+        </div>
+    </div>
+</div>

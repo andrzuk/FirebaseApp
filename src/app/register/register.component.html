@@ -1,0 +1,33 @@
+<ng-container *ngIf="!appComponent.isLoggedIn">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-4 col-md-8 col-sm-12">
+                <div class="card">
+                    <h5 class="card-header">
+                        <span class="logo"><i class="bi bi-box-arrow-in-left"></i></span>
+                        Register
+                    </h5>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <form [formGroup]="signUpForm">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email:</label>
+                                    <input type="email" class="form-control" id="email" formControlName="email" [disabled]="pending">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password:</label>
+                                    <input type="password" class="form-control" id="password" formControlName="password" autocomplete="false" [disabled]="pending">
+                                </div>
+                                <div class="d-grid mt-5">
+                                    <button type="submit" class="btn btn-primary" (click)="signUp()" [disabled]="pending">Sign Up</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<p class="error mt-2">{{ message }}</p>

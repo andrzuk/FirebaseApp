@@ -1,0 +1,27 @@
+a {
+    color: #369 !important;
+    :hover {
+        cursor: pointer;
+    }
+}
+div.alert {
+    text-align: center;
+    margin: 0;
+}
+span.preview {
+    :hover {
+        cursor: pointer;
+    }
+}
+div.preview {
+    padding: 2em;
+}
+span.label {
+    display: inline-block;
+    width: 100px;
+    padding: 0.2em 0;
+}
+span.value {
+    display: inline-block;
+    font-weight: bold;
+}

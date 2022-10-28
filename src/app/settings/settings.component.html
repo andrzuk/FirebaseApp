@@ -1,0 +1,127 @@
+<ng-container *ngIf="isLoggedIn && resume">
+    <ng-container *ngIf="isAdmin">
+        <ng-container *ngIf="action == 'list'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-12 col-md-12 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-gear"></i></span>
+                                Settings
+                                <span class="close" routerLink="/admin"><i class="bi bi-x-circle"></i></span>
+                                <span class="add" (click)="addSetting()"><i class="bi bi-plus-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Id</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Value</th>
+                                                    <th scope="col">Modified</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let setting of settingsListSorted; index as idx">
+                                                    <th scope="row">{{ idx + 1 }}</th>
+                                                    <td>{{ setting.key | slice:0:3 }}...</td>
+                                                    <td>{{ setting.value.name }}</td>
+                                                    <td>{{ setting.value.value | slice:0:128 }}...</td>
+                                                    <td>{{ setting.value.modified | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+                                                    <td>
+                                                        <a (click)="editSetting(setting)" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                                        <a (click)="deleteSetting(setting)" title="Delete"><i class="bi bi-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div *ngIf="message && resume && success" class="alert alert-success" role="alert">{{ message }}</div>
+                                    <div *ngIf="message && resume && !success" class="alert alert-danger" role="alert">{{ message }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="action == 'edit'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-8 col-md-10 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-gear"></i></span>
+                                Setting Edit
+                                <span class="close" (click)="cancelSetting()"><i class="bi bi-x-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <form [formGroup]="settingForm">
+                                        <input type="hidden" class="form-control" id="id" formControlName="id">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Name:</label>
+                                            <input type="text" class="form-control" id="name" formControlName="name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="value" class="form-label">Value:</label>
+                                            <textarea class="form-control" id="value" formControlName="value"></textarea>
+                                        </div>
+                                        <div *ngIf="message && resume && !success" class="alert alert-danger" role="alert">{{ message }}</div>
+                                        <div class="action mt-3">
+                                            <button type="submit" class="btn btn-primary" (click)="saveSetting()">Save</button>
+                                            <button type="submit" class="btn btn-warning" (click)="cancelSetting()">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="action == 'delete'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-4 col-md-8 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-gear"></i></span>
+                                Setting Delete
+                                <span class="close" (click)="cancelSetting()"><i class="bi bi-x-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <form [formGroup]="settingForm">
+                                        <input type="hidden" class="form-control" id="id" formControlName="id">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">You are attempting to remove setting:</label>
+                                            <input type="text" class="form-control-plaintext" id="name" formControlName="name" readonly>
+                                        </div>
+                                        <div class="action mt-3">
+                                            <button type="submit" class="btn btn-danger" (click)="removeSetting()">Remove</button>
+                                            <button type="submit" class="btn btn-warning" (click)="cancelSetting()">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!isAdmin">
+        <div class="container text-center">
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-8 col-md-10 col-sm-12">
+                    Administrative privileges are required to access this content.
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>

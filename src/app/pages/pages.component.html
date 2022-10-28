@@ -1,0 +1,270 @@
+<ng-container *ngIf="isLoggedIn && resume">
+    <ng-container *ngIf="isAdmin">
+        <ng-container *ngIf="action == 'list'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-12 col-md-12 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-file-earmark-text"></i></span>
+                                Pages
+                                <span class="close" routerLink="/admin"><i class="bi bi-x-circle"></i></span>
+                                <span class="add" (click)="addPage()"><i class="bi bi-plus-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Id</th>
+                                                    <th scope="col">Type</th>
+                                                    <th scope="col">Title</th>
+                                                    <th scope="col">Content</th>
+                                                    <th scope="col">Modified</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let page of pagesListSorted; index as idx">
+                                                    <th scope="row">{{ idx + 1 }}</th>
+                                                    <td>{{ page.key | slice:0:3 }}...</td>
+                                                    <td>{{ page.value.type }}</td>
+                                                    <td>{{ page.value.title | slice:0:32 }}...</td>
+                                                    <td>{{ page.value.content | slice:0:128 }}...</td>
+                                                    <td>{{ page.value.modified | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+                                                    <td>
+                                                        <a (click)="editPage(page)" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                                        <a (click)="copyPage(page)" title="Copy"><i class="bi bi-clipboard-check"></i></a>
+                                                        <a (click)="showArchives(page)" title="Archive"><i class="bi bi-archive"></i></a>
+                                                        <a (click)="deletePage(page)" title="Delete"><i class="bi bi-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div *ngIf="message && resume && success" class="alert alert-success" role="alert">{{ message }}</div>
+                                    <div *ngIf="message && resume && !success" class="alert alert-danger" role="alert">{{ message }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="action == 'edit'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-8 col-md-10 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-file-earmark-text"></i></span>
+                                Page Edit
+                                <span class="close" (click)="cancelPage()"><i class="bi bi-x-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <form [formGroup]="pageForm">
+                                        <input type="hidden" class="form-control" id="id" formControlName="id">
+                                        <div class="mb-3">
+                                            <label for="title" class="form-label">Title:</label>
+                                            <input type="text" class="form-control" id="title" formControlName="title">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="content" class="form-label">Content:</label>
+                                            <textarea class="form-control" id="content" formControlName="content"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="type" class="form-label">Type:</label>
+                                            <select class="form-select" id="type" formControlName="type">
+                                                <option value="Index">Index</option>
+                                                <option value="Contact">Contact</option>
+                                                <option value="Regular">Regular</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-0" *ngIf="key">
+                                            <span class="label">URL:</span>
+                                            <span class="label">{{ key | slice:0:3 }}...</span>
+                                            <span class="value"><button type="button" class="btn btn-outline-secondary btn-sm" (click)="copyLink(link)">Copy</button></span>
+                                        </div>
+                                        <div *ngIf="message && resume && !success" class="alert alert-danger" role="alert">{{ message }}</div>
+                                        <div class="action mt-3">
+                                            <button type="submit" class="btn btn-primary" (click)="savePage()">Save</button>
+                                            <button type="submit" class="btn btn-warning" (click)="cancelPage()">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="action == 'delete'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-4 col-md-8 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-file-earmark-text"></i></span>
+                                Page Delete
+                                <span class="close" (click)="cancelPage()"><i class="bi bi-x-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <form [formGroup]="pageForm">
+                                        <input type="hidden" class="form-control" id="id" formControlName="id">
+                                        <div class="mb-3">
+                                            <label for="title" class="form-label">You are attempting to remove page:</label>
+                                            <input type="text" class="form-control-plaintext" id="title" formControlName="title" readonly>
+                                        </div>
+                                        <div *ngIf="message && !success" class="alert alert-danger" role="alert">{{ message }}</div>
+                                        <div class="action mt-3">
+                                            <button type="submit" class="btn btn-danger" (click)="removePage()">Remove</button>
+                                            <button type="submit" class="btn btn-warning" (click)="cancelPage()">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="action == 'archives'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-8 col-md-10 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-file-earmark-text"></i></span>
+                                Page Archives
+                                <span class="close" (click)="cancelPage()"><i class="bi bi-x-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Id</th>
+                                                    <th scope="col">Modified</th>
+                                                    <th scope="col">Archived</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let archive of archivesListSorted; index as idx">
+                                                    <th scope="row">{{ idx + 1 }}</th>
+                                                    <td>{{ archive.key | slice:0:3 }}...</td>
+                                                    <td>{{ archive.value.modified | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+                                                    <td>{{ archive.value.archived | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+                                                    <td>
+                                                        <a (click)="editArchive(archive)" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                                        <a (click)="restoreArchive(archive)" title="Restore"><i class="bi bi-box-arrow-down"></i></a>
+                                                        <a (click)="deleteArchive(archive)" title="Delete"><i class="bi bi-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div *ngIf="message && resume && success" class="alert alert-success" role="alert">{{ message }}</div>
+                                    <div *ngIf="message && resume && !success" class="alert alert-danger" role="alert">{{ message }}</div>        
+                                    <div class="action mt-3">
+                                        <button type="submit" class="btn btn-success" (click)="archivePage(pageId)">Archive</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="action == 'modify'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-8 col-md-10 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-file-earmark-text"></i></span>
+                                Archive Edit
+                                <span class="close" (click)="cancelArchive()"><i class="bi bi-x-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <form [formGroup]="archiveForm">
+                                        <input type="hidden" class="form-control" id="id" formControlName="id">
+                                        <input type="hidden" class="form-control" id="pageId" formControlName="pageId">
+                                        <input type="hidden" class="form-control" id="modified" formControlName="modified">
+                                        <div class="mb-3">
+                                            <label for="title" class="form-label">Title:</label>
+                                            <input type="text" class="form-control" id="title" formControlName="title">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="content" class="form-label">Content:</label>
+                                            <textarea class="form-control" id="content" formControlName="content"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="type" class="form-label">Type:</label>
+                                            <select class="form-select" id="type" formControlName="type">
+                                                <option value="Index">Index</option>
+                                                <option value="Contact">Contact</option>
+                                                <option value="Regular">Regular</option>
+                                            </select>
+                                        </div>
+                                        <div *ngIf="message && resume && !success" class="alert alert-danger" role="alert">{{ message }}</div>
+                                        <div class="action mt-3">
+                                            <button type="submit" class="btn btn-primary" (click)="saveArchive()">Save</button>
+                                            <button type="submit" class="btn btn-warning" (click)="cancelArchive()">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="action == 'remove'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-4 col-md-8 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-file-earmark-text"></i></span>
+                                Archive Delete
+                                <span class="close" (click)="cancelArchive()"><i class="bi bi-x-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <form [formGroup]="archiveForm">
+                                        <input type="hidden" class="form-control" id="id" formControlName="id">
+                                        <div class="mb-3">
+                                            <label for="title" class="form-label">You are attempting to remove archive:</label>
+                                            <input type="text" class="form-control-plaintext" id="title" formControlName="title" readonly>
+                                        </div>
+                                        <div class="action mt-3">
+                                            <button type="submit" class="btn btn-danger" (click)="removeArchive()">Remove</button>
+                                            <button type="submit" class="btn btn-warning" (click)="cancelArchive()">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!isAdmin">
+        <div class="container text-center">
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-8 col-md-10 col-sm-12">
+                    Administrative privileges are required to access this content.
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>

@@ -1,0 +1,47 @@
+<ng-container *ngIf="isLoggedIn && resume">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <h5 class="card-header">
+                        <span class="logo"><i class="bi bi-people"></i></span>
+                        Users
+                        <span class="close" routerLink="/admin"><i class="bi bi-x-circle"></i></span>
+                    </h5>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Created</th>
+                                        <th scope="col">Logged</th>
+                                        <th scope="col">Admin</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let user of usersList; index as idx" [ngClass]="user.key == userInfo.uid ? 'selected' : 'normal'">
+                                        <th scope="row">{{ idx + 1 }}</th>
+                                        <td>{{ user.key | slice:0:3 }}...</td>
+                                        <td>{{ user.value.email }}</td>
+                                        <td>{{ user.value.status ? 'ADMIN' : 'USER' }}</td>
+                                        <td>{{ user.value.createdAt | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+                                        <td>{{ user.value.lastLoginAt | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+                                        <td class="action"><a (click)="editUser(user)" title="Change"><i class="bi bi-toggle-{{ user.value.status ? 'on' : 'off' }}"></i></a></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
+                            <div *ngIf="message && resume && success" class="alert alert-success" role="alert">{{ message }}</div>
+                            <div *ngIf="message && resume && !success" class="alert alert-danger" role="alert">{{ message }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

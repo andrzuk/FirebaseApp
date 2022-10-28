@@ -1,0 +1,28 @@
+span.label {
+    display: inline-block;
+    width: 70px;
+}
+span.value {
+    display: inline-block;
+    font-weight: bold;
+}
+span.admin-item {
+    margin: .75em;
+    text-align: center;
+    display: inline-block;
+    width: 100px;
+    a {
+        text-decoration: none;
+        color: #666;
+        i.bi {
+            font-size: 4em;
+        }
+        span.label {
+            display: inline-block;
+            font-weight: bold;
+        }
+        :hover {
+            color: #c00;
+        }
+    }
+}

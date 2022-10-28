@@ -1,0 +1,51 @@
+<ng-container *ngIf="isLoggedIn">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-4 col-md-8 col-sm-12">
+                <div class="card">
+                    <h5 class="card-header">
+                        <span class="logo"><i class="bi bi-tools"></i></span>
+                        Admin Panel
+                        <span class="close" routerLink="/"><i class="bi bi-x-circle"></i></span>
+                    </h5>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <ul class="list-group my-2">
+                                <li class="list-group-item">
+                                    <span class="label">Role:</span>
+                                    <span class="value">{{ userInfo.role }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="label">Uid:</span>
+                                    <span class="value">{{ userInfo.uid | slice:0:8 }}...</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="label">Email:</span>
+                                    <span class="value">{{ userInfo.email }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="label">Created:</span>
+                                    <span class="value">{{ userInfo.createdAt | date:'dd-MM-yyyy HH:mm:ss' }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="label">Logged:</span>
+                                    <span class="value">{{ userInfo.lastLoginAt | date:'dd-MM-yyyy HH:mm:ss' }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-text text-center">
+                            <ul class="list-group my-2">
+                                <li class="list-group-item">
+                                    <span class="admin-item"><a routerLink="/settings"><i class="bi bi-gear"></i><span class="label">Settings</span></a></span>
+                                    <span class="admin-item"><a routerLink="/users"><i class="bi bi-people"></i><span class="label">Users</span></a></span>
+                                    <span class="admin-item"><a routerLink="/pages"><i class="bi bi-file-earmark-text"></i><span class="label">Pages</span></a></span>
+                                    <span class="admin-item"><a routerLink="/images"><i class="bi bi-images"></i><span class="label">Images</span></a></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

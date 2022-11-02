@@ -37,6 +37,7 @@ export class ImagesComponent implements OnInit {
   resume = false;
   success = false;
   message = '';
+  filename = '';
   link = '';
 
   settingsList: never | any = [];
@@ -229,6 +230,7 @@ export class ImagesComponent implements OnInit {
       const image = snapshot.exportVal();
       this.imageInfo = { key: key, bucket: image.bucket, name: image.name, size: image.size, width: image.width, height: image.height };
       this.link = this.storageUrl + '/v0/b/' + this.imageInfo.bucket + '/o/' + this.imageInfo.name + '?alt=media';
+      this.filename = this.imageInfo.name;
     }).catch((error) => {});
   }
 
@@ -239,5 +241,24 @@ export class ImagesComponent implements OnInit {
   copyImage(image: any) {
     const link = this.storageUrl + '/v0/b/' + image.value.bucket + '/o/' + image.value.name + '?alt=media';
     this.clipboard.copy(link);
+  }
+
+  downloadLink(link: string, filename: string) {
+    var a = document.createElement('a');
+    a.href = link;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  downloadImage(image: any) {
+    const link = this.storageUrl + '/v0/b/' + image.value.bucket + '/o/' + image.value.name + '?alt=media';
+    var a = document.createElement('a');
+    a.href = link;
+    a.download = image.value.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }

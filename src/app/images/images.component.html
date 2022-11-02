@@ -36,11 +36,12 @@
                                                     <td>{{ image.value.name }}</td>
                                                     <td>{{ image.value.width }}</td>
                                                     <td>{{ image.value.height }}</td>
-                                                    <td>{{ image.value.size }}</td>
+                                                    <td>{{ image.value.size | numberFormat : 0 }}</td>
                                                     <td>{{ image.value.modified | date:'dd-MM-yyyy HH:mm:ss' }}</td>
                                                     <td>
                                                         <a (click)="showImage(image)" title="Show"><i class="bi bi-aspect-ratio"></i></a>
                                                         <a (click)="copyImage(image)" title="Copy"><i class="bi bi-clipboard-check"></i></a>
+                                                        <a (click)="downloadImage(image)" title="Download"><i class="bi bi-download"></i></a>
                                                         <a (click)="deleteImage(image)" title="Delete"><i class="bi bi-trash"></i></a>
                                                     </td>
                                                 </tr>
@@ -109,7 +110,8 @@
                                     </div>
                                     <div class="mb-0">
                                         <span class="label">URL:</span>
-                                        <span class="value"><button type="button" class="btn btn-outline-secondary btn-sm" (click)="copyLink(link)">Copy</button></span>
+                                        <span class="value mx-0"><button type="button" class="btn btn-outline-secondary btn-sm" (click)="copyLink(link)">Copy</button></span>
+                                        <span class="value mx-4"><button type="button" class="btn btn-outline-secondary btn-sm" (click)="downloadLink(link, filename)">Download</button></span>
                                     </div>
                                     <div class="mb-0">
                                         <span class="label">Id:</span>
@@ -117,7 +119,7 @@
                                     </div>
                                     <div class="mb-0">
                                         <span class="label">Size:</span>
-                                        <span class="value">{{ imageInfo.size }} bytes</span>
+                                        <span class="value">{{ imageInfo.size | numberFormat : 0 }}</span>
                                     </div>
                                     <div class="mb-0">
                                         <span class="label">Dimensions:</span>

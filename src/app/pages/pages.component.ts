@@ -96,6 +96,9 @@ export class PagesComponent implements OnInit {
     this.pageForm.controls.title.reset();
     this.pageForm.controls.content.reset();
     this.pageForm.setValue({ id: uid, type: 'Regular', title: '', content: '' });
+    setTimeout(() => {
+      document.getElementById('title')?.focus();        
+    }, 500);
   }
 
   editPage(page: any) {
@@ -108,6 +111,9 @@ export class PagesComponent implements OnInit {
       this.pageForm.setValue({ id: key, type: page.type, title: page.title, content: page.content });
       this.link = '/page/' + key;
       this.resume = true;
+      setTimeout(() => {
+        document.getElementById('title')?.focus();        
+      }, 500);  
     }).catch((error) => {});
   }
 

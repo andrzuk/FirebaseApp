@@ -79,6 +79,9 @@ export class SettingsComponent implements OnInit {
     this.settingForm.controls.name.reset();
     this.settingForm.controls.value.reset();
     this.settingForm.setValue({ id: uid, name: '', value: '' });
+    setTimeout(() => {
+      document.getElementById('name')?.focus();        
+    }, 500);
   }
 
   editSetting(setting: any) {
@@ -89,6 +92,9 @@ export class SettingsComponent implements OnInit {
       const setting = snapshot.exportVal();
       this.settingForm.setValue({ id: key, name: setting.name, value: setting.value });
       this.resume = true;
+      setTimeout(() => {
+        document.getElementById('name')?.focus();        
+      }, 500);  
     }).catch((error) => {});
   }
 

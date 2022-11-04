@@ -128,6 +128,9 @@ export class ImagesComponent implements OnInit {
     this.imageForm.controls.file.reset();
     const uid = sha512.create().update((new Date()).toTimeString()).hex().substring(0, 32);
     this.imageForm.setValue({ id: uid, file: '' });
+    setTimeout(() => {
+      document.getElementById('file')?.focus();        
+    }, 500);
   }
 
   checkImageExist(filename: string) {
@@ -146,6 +149,9 @@ export class ImagesComponent implements OnInit {
         this.message = 'Selected file already exists.';
         this.pending = true;
         this.success = false;
+        setTimeout(() => {
+          document.getElementById('file')?.focus();        
+        }, 500);    
         return;
       }
       this.pending = true;
@@ -247,6 +253,7 @@ export class ImagesComponent implements OnInit {
     var a = document.createElement('a');
     a.href = link;
     a.download = filename;
+    a.target = '_blank';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -257,6 +264,7 @@ export class ImagesComponent implements OnInit {
     var a = document.createElement('a');
     a.href = link;
     a.download = image.value.name;
+    a.target = '_blank';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

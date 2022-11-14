@@ -11,6 +11,7 @@ import { PagesComponent } from './pages/pages.component';
 import { RegisterComponent } from './register/register.component';
 import { SettingsComponent } from './settings/settings.component';
 import { UsersComponent } from './users/users.component';
+import { BackupComponent } from './backup/backup.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'page/:id', component: PageComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'images', component: ImagesComponent },
+  { path: 'backup', component: BackupComponent },
   { path: '**', component: HomeComponent },
 ];
 

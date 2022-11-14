@@ -1,0 +1,78 @@
+<ng-container *ngIf="isLoggedIn">
+    <ng-container *ngIf="isAdmin">
+        <ng-container *ngIf="action == 'panel'">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-8 col-md-10 col-sm-12">
+                        <div class="card">
+                            <h5 class="card-header">
+                                <span class="logo"><i class="bi bi-archive"></i></span>
+                                Backup
+                                <span class="close" (click)="cancelBackup()"><i class="bi bi-x-circle"></i></span>
+                            </h5>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <div class="container">
+                                        <div class="col">
+                                            <div class="">
+                                                <label class="form-label">Save backup to local file...</label>
+                                                <div class="action">
+                                                    <button type="submit" class="btn btn-primary" [disabled]="saved" (click)="saveBackup()">Save</button>
+                                                </div>        
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="mx-2 my-4">
+                                    <div class="container">
+                                        <div class="col">
+                                            <div class="row">
+                                                <form [formGroup]="backupForm" enctype="multipart/form-data">
+                                                    <label for="file" class="form-label">Select backup file to restore from...</label>
+                                                    <input class="form-control" type="file" id="file" [disabled]="restored" formControlName="file" (change)="onFileSelected($event)">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="mt-3">
+                                                    <div class="action">
+                                                        <button type="submit" class="btn btn-primary" [disabled]="!selectedFile || pending || restored" (click)="loadBackup()">Restore</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="mx-2 my-4">
+                                    <div class="container">
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="mt-0">
+                                                    <div class="action">
+                                                        <button type="submit" class="btn btn-warning" (click)="cancelBackup()">Cancel</button>
+                                                    </div>
+                                                    <div *ngIf="message && (resume || pending) && success" class="alert alert-success" role="alert" style="display: contents;">{{ message }}</div>
+                                                    <div *ngIf="message && (resume || pending) && !success" class="alert alert-danger" role="alert" style="display: contents;">{{ message }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!isAdmin">
+        <div class="container text-center">
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-8 col-md-10 col-sm-12">
+                    Administrative privileges are required to access this content.
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>

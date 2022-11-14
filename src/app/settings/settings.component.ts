@@ -124,7 +124,7 @@ export class SettingsComponent implements OnInit {
             this.message = 'Setting was saved successfully.';
           }).catch((error) => {
             this.message = error.message;
-          });    
+          });
         }
         else {
           this.message = 'Setting name already exists.';

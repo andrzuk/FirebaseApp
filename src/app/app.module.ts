@@ -26,6 +26,7 @@ import { PageComponent } from './page/page.component';
 import { ContactComponent } from './contact/contact.component';
 import { ImagesComponent } from './images/images.component';
 import { NumberFormatPipe } from './number-format.pipe';
+import { BackupComponent } from './backup/backup.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { NumberFormatPipe } from './number-format.pipe';
     PageComponent,
     ContactComponent,
     ImagesComponent,
-    NumberFormatPipe
+    NumberFormatPipe,
+    BackupComponent
   ],
   imports: [
     BrowserModule,

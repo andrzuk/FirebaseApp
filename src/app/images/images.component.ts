@@ -97,7 +97,7 @@ export class ImagesComponent implements OnInit {
     }
     this.pending = false;
     this.message = '';
-  }  
+  }
 
   showImages() {
     this.resume = false;

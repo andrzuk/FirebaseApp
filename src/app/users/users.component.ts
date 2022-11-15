@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import { FirebaseService } from '../firebase.service';
 import { Router } from "@angular/router";
@@ -16,9 +17,14 @@ export class UsersComponent implements OnInit {
   isLoggedIn = false;
   isAdmin = false;
   usersList: never | any = [];
+  fullList: never | any = [];
   resume = false;
   success = false;
   message = '';
+  searchForm = new FormGroup({
+    search: new FormControl('')
+  });
+  search: string = '';
 
   constructor(private firebase: FirebaseService, private router: Router, private appComponent: AppComponent) { }
 
@@ -59,6 +65,11 @@ export class UsersComponent implements OnInit {
           }
         }
       }
+      this.fullList = this.usersList;
+      this.filter();
+      setTimeout(() => {
+        document.getElementById('search')?.focus();        
+      }, 500);  
       this.resume = true;
       this.success = true;
     }).catch((error) => {
@@ -88,5 +99,12 @@ export class UsersComponent implements OnInit {
       this.success = false;
       this.message = 'You cannot change your own role.';
     }
+  }
+
+  filter(): void {
+    this.search = this.searchForm.value.search?.toLowerCase() || '';
+    this.usersList = this.fullList.filter((item: any) => {
+      return item.value.email.toLowerCase().includes(this.search);
+    });
   }
 }

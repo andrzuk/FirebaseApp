@@ -21,6 +21,7 @@ export class PagesComponent implements OnInit {
   isAdmin = false;
   pagesList: never | any = [];
   pagesListSorted: never | any = [];
+  fullList: never | any = [];
   pageForm = new FormGroup({
     id: new FormControl(''),
     type: new FormControl(''),
@@ -44,6 +45,10 @@ export class PagesComponent implements OnInit {
   message = '';
   key: string | null = '';
   link = '';
+  searchForm = new FormGroup({
+    search: new FormControl('')
+  });
+  search: string = '';
 
   constructor(private firebase: FirebaseService, private router: Router, private appComponent: AppComponent, private clipboard: Clipboard) { }
 
@@ -79,8 +84,13 @@ export class PagesComponent implements OnInit {
         }  
       }
       this.pagesListSorted = this.appComponent.getSorted(this.pagesList);
+      this.fullList = this.pagesListSorted;
+      this.filter();
       this.resume = true;
       this.success = true;
+      setTimeout(() => {
+        document.getElementById('search')?.focus();        
+      }, 500);
     }).catch((error) => {
       this.resume = true;
       this.success = false;
@@ -314,5 +324,15 @@ export class PagesComponent implements OnInit {
   cancelArchive() {
     this.action = 'archives';
     this.message = '';
+    setTimeout(() => {
+      document.getElementById('search')?.focus();        
+    }, 500);
+  }
+
+  filter(): void {
+    this.search = this.searchForm.value.search?.toLowerCase() || '';
+    this.pagesListSorted = this.fullList.filter((item: any) => {
+      return item.value.title.toLowerCase().includes(this.search) || item.value.content.toLowerCase().includes(this.search);
+    });
   }
 }

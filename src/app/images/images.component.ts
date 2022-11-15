@@ -24,6 +24,7 @@ export class ImagesComponent implements OnInit {
   selectedFile: any;
   imagesList: never | any = [];
   imagesListSorted: never | any = [];
+  fullList: never | any = [];
   imageForm = new FormGroup({
     id: new FormControl(''),
     file: new FormControl(''),
@@ -39,6 +40,10 @@ export class ImagesComponent implements OnInit {
   message = '';
   filename = '';
   link = '';
+  searchForm = new FormGroup({
+    search: new FormControl('')
+  });
+  search: string = '';
 
   settingsList: never | any = [];
 
@@ -111,8 +116,13 @@ export class ImagesComponent implements OnInit {
         }
       }
       this.imagesListSorted = this.appComponent.getSorted(this.imagesList);
+      this.fullList = this.imagesListSorted;
+      this.filter();
       this.resume = true;
       this.success = true;
+      setTimeout(() => {
+        document.getElementById('search')?.focus();        
+      }, 500);  
     }).catch((error) => {
       this.resume = true;
       this.success = false;
@@ -227,6 +237,9 @@ export class ImagesComponent implements OnInit {
   cancelImage() {
     this.action = 'list';
     this.message = '';
+    setTimeout(() => {
+      document.getElementById('search')?.focus();        
+    }, 500);
   }
 
   showImage(image: any) {
@@ -268,5 +281,12 @@ export class ImagesComponent implements OnInit {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  }
+
+  filter(): void {
+    this.search = this.searchForm.value.search?.toLowerCase() || '';
+    this.imagesListSorted = this.fullList.filter((item: any) => {
+      return item.value.name.toLowerCase().includes(this.search);
+    });
   }
 }

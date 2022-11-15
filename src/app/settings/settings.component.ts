@@ -20,6 +20,7 @@ export class SettingsComponent implements OnInit {
   isAdmin = false;
   settingsList: never | any = [];
   settingsListSorted: never | any = [];
+  fullList: never | any = [];
   settingForm = new FormGroup({
     id: new FormControl(''),
     name: new FormControl(''),
@@ -29,6 +30,10 @@ export class SettingsComponent implements OnInit {
   resume = false;
   success = false;
   message = '';
+  searchForm = new FormGroup({
+    search: new FormControl('')
+  });
+  search: string = '';
 
   constructor(private firebase: FirebaseService, private router: Router, private appComponent: AppComponent) { }
 
@@ -64,8 +69,13 @@ export class SettingsComponent implements OnInit {
         }
       }
       this.settingsListSorted = this.appComponent.getSorted(this.settingsList);
+      this.fullList = this.settingsListSorted;
+      this.filter();
       this.resume = true;
       this.success = true;
+      setTimeout(() => {
+        document.getElementById('search')?.focus();        
+      }, 500);
     }).catch((error) => {
       this.resume = true;
       this.success = false;
@@ -166,5 +176,15 @@ export class SettingsComponent implements OnInit {
   cancelSetting() {
     this.action = 'list';
     this.message = '';
+    setTimeout(() => {
+      document.getElementById('search')?.focus();        
+    }, 500);
+  }
+
+  filter(): void {
+    this.search = this.searchForm.value.search?.toLowerCase() || '';
+    this.settingsListSorted = this.fullList.filter((item: any) => {
+      return item.value.name.toLowerCase().includes(this.search) || item.value.value.toLowerCase().includes(this.search);
+    });
   }
 }

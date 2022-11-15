@@ -27,6 +27,7 @@ import { ContactComponent } from './contact/contact.component';
 import { ImagesComponent } from './images/images.component';
 import { NumberFormatPipe } from './number-format.pipe';
 import { BackupComponent } from './backup/backup.component';
+import { SearchFilterPipe } from './search-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { BackupComponent } from './backup/backup.component';
     ContactComponent,
     ImagesComponent,
     NumberFormatPipe,
-    BackupComponent
+    BackupComponent,
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,

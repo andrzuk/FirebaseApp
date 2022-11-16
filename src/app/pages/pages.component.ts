@@ -194,6 +194,9 @@ export class PagesComponent implements OnInit {
   cancelPage() {
     this.action = 'list';
     this.message = '';
+    setTimeout(() => {
+      document.getElementById('search')?.focus();        
+    }, 500);
   }
 
   copyLink(link: string) {
@@ -324,9 +327,6 @@ export class PagesComponent implements OnInit {
   cancelArchive() {
     this.action = 'archives';
     this.message = '';
-    setTimeout(() => {
-      document.getElementById('search')?.focus();        
-    }, 500);
   }
 
   filter(): void {

@@ -170,6 +170,7 @@ export class ImagesComponent implements OnInit {
       this.message = 'Upload is being performed...';
       const storage = getStorage();
       const storageRef = ref(storage, this.selectedFile.name);
+      storageRef.storage.maxUploadRetryTime = 10000;
       uploadBytes(storageRef, this.selectedFile).then((snapshot) => {
         const bucket = snapshot.metadata.bucket;
         const contentType = snapshot.metadata.contentType;
@@ -189,12 +190,13 @@ export class ImagesComponent implements OnInit {
           this.pending = false;
           this.resume = true;
           this.success = false;
-          this.message = error.message;
-        });  
+          this.message = error;
+        });
       }).catch((error) => {
         this.pending = false;
+        this.resume = true;
         this.success = false;
-        this.message = error.message;
+        this.message = error;
       });
     }
   }

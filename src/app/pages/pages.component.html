@@ -95,7 +95,7 @@
                                                 <option value="Regular">Regular</option>
                                             </select>
                                         </div>
-                                        <div class="mb-0" *ngIf="key">
+                                        <div class="mb-1" *ngIf="key">
                                             <span class="label">URL:</span>
                                             <span class="label">{{ key | slice:0:3 }}...</span>
                                             <span class="value"><button type="button" class="btn btn-outline-secondary btn-sm" (click)="copyLink(link)">Copy</button></span>
@@ -156,6 +156,11 @@
                             </h5>
                             <div class="card-body">
                                 <div class="card-text">
+                                    <div class="row">
+                                        <div class="col mb-1">
+                                            Page: <b>{{ pageTitle }}</b>
+                                        </div>
+                                    </div>                                    
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>

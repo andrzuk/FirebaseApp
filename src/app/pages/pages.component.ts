@@ -29,6 +29,7 @@ export class PagesComponent implements OnInit {
     content: new FormControl(''),
   });
   pageId: string | null = '';
+  pageTitle: string | null = '';
   archivesList: never | any = [];
   archivesListSorted: never | any = [];
   archiveForm = new FormGroup({
@@ -143,7 +144,6 @@ export class PagesComponent implements OnInit {
     }
     else {
       this.message = 'Title and contents are required.';
-      this.resume = true;
       this.success = false;
     }
   }
@@ -222,6 +222,9 @@ export class PagesComponent implements OnInit {
       }
       this.archivesListSorted = this.appComponent.getSorted(this.archivesList);
       this.pageId = page.key;
+      if (page.value) {
+        this.pageTitle = page.value.title;
+      }
       this.resume = true;
       this.success = true;
     }).catch((error) => {
@@ -234,6 +237,7 @@ export class PagesComponent implements OnInit {
   editArchive(archive: any) {
     this.action = 'modify';
     this.resume = false;
+    this.message = '';
     this.firebase.getArchive(archive.key).then((snapshot) => {
       const key = snapshot.key;
       const archive = snapshot.exportVal();
@@ -262,7 +266,6 @@ export class PagesComponent implements OnInit {
     }
     else {
       this.message = 'Title and contents are required.';
-      this.resume = true;
       this.success = false;
     }
   }
@@ -314,13 +317,25 @@ export class PagesComponent implements OnInit {
       this.key = key;
       this.resume = true;
       const archive = { id: uid, pageId: id, type: page.type, title: page.title, content: page.content, modified: page.modified, archived: Date.now() };
-      this.firebase.saveArchive(archive).then(() => {
-        const owner = { key: id, value: null };
-        this.showArchives(owner);
-        this.message = 'Page was archived successfully.';
-      }).catch((error) => {
-        this.message = error.message;
+      var canSave: boolean = true;
+      this.archivesList.forEach((archive: any) => {
+        if (archive.value.title == page.title && archive.value.content == page.content) {
+          canSave = false;
+        }
       });
+      if (canSave) {
+        this.firebase.saveArchive(archive).then(() => {
+          const owner = { key: id, value: null };
+          this.showArchives(owner);
+          this.message = 'Page was archived successfully.';
+        }).catch((error) => {
+          this.message = error.message;
+        });  
+      }
+      else {
+        this.message = 'Archive content already exists.';
+        this.success = false;
+      }
     }).catch((error) => {});
   }
 

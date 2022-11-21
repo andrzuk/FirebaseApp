@@ -14,12 +14,27 @@
                             <div class="card-body">
                                 <div class="card-text">
                                     <div class="row">
-                                        <div class="col-8 mb-1">
+                                        <div class="col-6 mb-1">
                                             <form [formGroup]="searchForm">
                                                 <input type="text" class="form-control" id="search" formControlName="search" (input)="filter()">
                                             </form>
                                         </div>
-                                        <div class="col-4 mb-1">
+                                        <div class="col-1 mb-1">
+                                            <div class="sort-label">
+                                                Sort by:
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-1">
+                                            <form [formGroup]="sortForm">
+                                                <select class="form-control" id="sort" formControlName="sort" (change)="sort()">
+                                                    <option value="type" [selected]="sortField == 'type'">Type</option>
+                                                    <option value="title" [selected]="sortField == 'title'">Title</option>
+                                                    <option value="content" [selected]="sortField == 'content'">Content</option>
+                                                    <option value="modified" [selected]="sortField == 'modified'">Modified</option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                        <div class="col-2 mb-1">
                                             <div class="items-counter">
                                                 Items: <b>{{ pagesListSorted.length }}</b>
                                             </div>
@@ -262,6 +277,7 @@
                                             <label for="title" class="form-label">You are attempting to remove archive:</label>
                                             <input type="text" class="form-control-plaintext" id="title" formControlName="title" readonly>
                                         </div>
+                                        <div *ngIf="message && !success" class="alert alert-danger" role="alert">{{ message }}</div>
                                         <div class="action mt-3">
                                             <button type="submit" class="btn btn-danger" (click)="removeArchive()">Remove</button>
                                             <button type="submit" class="btn btn-warning" (click)="cancelArchive()">Cancel</button>

@@ -17,6 +17,7 @@ export class UsersComponent implements OnInit {
   isLoggedIn = false;
   isAdmin = false;
   usersList: never | any = [];
+  usersListSorted: never | any = [];
   fullList: never | any = [];
   resume = false;
   success = false;
@@ -25,6 +26,10 @@ export class UsersComponent implements OnInit {
     search: new FormControl('')
   });
   search: string = '';
+  sortForm = new FormGroup({
+    sort: new FormControl('')
+  });
+  sortField: string = 'lastLoginAt';
 
   constructor(private firebase: FirebaseService, private router: Router, private appComponent: AppComponent) { }
 
@@ -65,7 +70,8 @@ export class UsersComponent implements OnInit {
           }
         }
       }
-      this.fullList = this.usersList;
+      this.usersListSorted = this.appComponent.getSorted(this.usersList, this.sortField, true);
+      this.fullList = this.usersListSorted;
       this.filter();
       setTimeout(() => {
         document.getElementById('search')?.focus();        
@@ -106,5 +112,10 @@ export class UsersComponent implements OnInit {
     this.usersList = this.fullList.filter((item: any) => {
       return item.value.email.toLowerCase().includes(this.search);
     });
+  }
+
+  sort(): void {
+    this.sortField = this.sortForm.value.sort || '';
+    this.showUsers();
   }
 }

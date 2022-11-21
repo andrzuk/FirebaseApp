@@ -44,6 +44,10 @@ export class ImagesComponent implements OnInit {
     search: new FormControl('')
   });
   search: string = '';
+  sortForm = new FormGroup({
+    sort: new FormControl('')
+  });
+  sortField: string = 'modified';
 
   settingsList: never | any = [];
 
@@ -115,7 +119,7 @@ export class ImagesComponent implements OnInit {
           this.imagesList.push({ key: key, value: images[key] });
         }
       }
-      this.imagesListSorted = this.appComponent.getSorted(this.imagesList);
+      this.imagesListSorted = this.appComponent.getSorted(this.imagesList, this.sortField, true);
       this.fullList = this.imagesListSorted;
       this.filter();
       this.resume = true;
@@ -190,13 +194,13 @@ export class ImagesComponent implements OnInit {
           this.pending = false;
           this.resume = true;
           this.success = false;
-          this.message = error;
+          this.message = error.message;
         });
       }).catch((error) => {
         this.pending = false;
         this.resume = true;
         this.success = false;
-        this.message = error;
+        this.message = error.message;
       });
     }
   }
@@ -227,11 +231,13 @@ export class ImagesComponent implements OnInit {
           this.message = 'Image was removed successfully.';
         }).catch((error) => {
           this.pending = false;
+          this.success = false;
           this.message = error.message;
         });
       }
     }).catch((error) => {
       this.pending = false;
+      this.success = false;
       this.message = error.message;
     });
   }
@@ -290,5 +296,10 @@ export class ImagesComponent implements OnInit {
     this.imagesListSorted = this.fullList.filter((item: any) => {
       return item.value.name.toLowerCase().includes(this.search);
     });
+  }
+
+  sort(): void {
+    this.sortField = this.sortForm.value.sort || '';
+    this.showImages();
   }
 }

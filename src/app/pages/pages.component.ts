@@ -50,6 +50,10 @@ export class PagesComponent implements OnInit {
     search: new FormControl('')
   });
   search: string = '';
+  sortForm = new FormGroup({
+    sort: new FormControl('')
+  });
+  sortField: string = 'modified';
 
   constructor(private firebase: FirebaseService, private router: Router, private appComponent: AppComponent, private clipboard: Clipboard) { }
 
@@ -84,7 +88,7 @@ export class PagesComponent implements OnInit {
           this.pagesList.push({ key: key, value: pages[key] });
         }  
       }
-      this.pagesListSorted = this.appComponent.getSorted(this.pagesList);
+      this.pagesListSorted = this.appComponent.getSorted(this.pagesList, this.sortField, true);
       this.fullList = this.pagesListSorted;
       this.filter();
       this.resume = true;
@@ -140,6 +144,7 @@ export class PagesComponent implements OnInit {
         this.message = 'Page was saved successfully.';
       }).catch((error) => {
         this.message = error.message;
+        this.success = false;
       });
     }
     else {
@@ -178,6 +183,7 @@ export class PagesComponent implements OnInit {
             this.message = 'Page was removed successfully.';
           }).catch((error) => {
             this.message = error.message;
+            this.success = false;
           });      
         }
         else {
@@ -220,7 +226,7 @@ export class PagesComponent implements OnInit {
           this.archivesList.push({ key: key, value: archives[key] });
         }
       }
-      this.archivesListSorted = this.appComponent.getSorted(this.archivesList);
+      this.archivesListSorted = this.appComponent.getSorted(this.archivesList, this.sortField, true);
       this.pageId = page.key;
       if (page.value) {
         this.pageTitle = page.value.title;
@@ -262,6 +268,7 @@ export class PagesComponent implements OnInit {
         this.message = 'Archive was saved successfully.';
       }).catch((error) => {
         this.message = error.message;
+        this.success = false;
       });
     }
     else {
@@ -280,6 +287,7 @@ export class PagesComponent implements OnInit {
         this.message = 'Page was restored successfully.';
       }).catch((error) => {
         this.message = error.message;
+        this.success = false;
       });
     }).catch((error) => {});
   }
@@ -305,6 +313,7 @@ export class PagesComponent implements OnInit {
         this.message = 'Archive was removed successfully.';
       }).catch((error) => {
         this.message = error.message;
+        this.success = false;
       });
     }
   }
@@ -330,6 +339,7 @@ export class PagesComponent implements OnInit {
           this.message = 'Page was archived successfully.';
         }).catch((error) => {
           this.message = error.message;
+          this.success = false;
         });  
       }
       else {
@@ -349,5 +359,10 @@ export class PagesComponent implements OnInit {
     this.pagesListSorted = this.fullList.filter((item: any) => {
       return item.value.title.toLowerCase().includes(this.search) || item.value.content.toLowerCase().includes(this.search);
     });
+  }
+
+  sort(): void {
+    this.sortField = this.sortForm.value.sort || '';
+    this.showPages();
   }
 }

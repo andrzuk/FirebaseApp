@@ -14,12 +14,28 @@
                             <div class="card-body">
                                 <div class="card-text">
                                     <div class="row">
-                                        <div class="col-8 mb-1">
+                                        <div class="col-6 mb-1">
                                             <form [formGroup]="searchForm">
                                                 <input type="text" class="form-control" id="search" formControlName="search" (input)="filter()">
                                             </form>
                                         </div>
-                                        <div class="col-4 mb-1">
+                                        <div class="col-1 mb-1">
+                                            <div class="sort-label">
+                                                Sort by:
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-1">
+                                            <form [formGroup]="sortForm">
+                                                <select class="form-control" id="sort" formControlName="sort" (change)="sort()">
+                                                    <option value="name" [selected]="sortField == 'name'">Filename</option>
+                                                    <option value="width" [selected]="sortField == 'width'">Width</option>
+                                                    <option value="height" [selected]="sortField == 'height'">Height</option>
+                                                    <option value="size" [selected]="sortField == 'size'">Size</option>
+                                                    <option value="modified" [selected]="sortField == 'modified'">Modified</option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                        <div class="col-2 mb-1">
                                             <div class="items-counter">
                                                 Items: <b>{{ imagesListSorted.length }}</b>
                                             </div>

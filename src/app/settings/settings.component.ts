@@ -34,6 +34,10 @@ export class SettingsComponent implements OnInit {
     search: new FormControl('')
   });
   search: string = '';
+  sortForm = new FormGroup({
+    sort: new FormControl('')
+  });
+  sortField: string = 'modified';
 
   constructor(private firebase: FirebaseService, private router: Router, private appComponent: AppComponent) { }
 
@@ -68,7 +72,7 @@ export class SettingsComponent implements OnInit {
           this.settingsList.push({ key: key, value: settings[key] });
         }
       }
-      this.settingsListSorted = this.appComponent.getSorted(this.settingsList);
+      this.settingsListSorted = this.appComponent.getSorted(this.settingsList, this.sortField, true);
       this.fullList = this.settingsListSorted;
       this.filter();
       this.resume = true;
@@ -134,18 +138,17 @@ export class SettingsComponent implements OnInit {
             this.message = 'Setting was saved successfully.';
           }).catch((error) => {
             this.message = error.message;
+            this.success = false;
           });
         }
         else {
           this.message = 'Setting name already exists.';
-          this.resume = true;
           this.success = false;
         }
       }).catch(() => {});
     }
     else {
       this.message = 'Name and value are required.';
-      this.resume = true;
       this.success = false;
     }
   }
@@ -169,6 +172,7 @@ export class SettingsComponent implements OnInit {
         this.message = 'Setting was removed successfully.';
       }).catch((error) => {
         this.message = error.message;
+        this.success = false;
       });
     }
   }
@@ -186,5 +190,10 @@ export class SettingsComponent implements OnInit {
     this.settingsListSorted = this.fullList.filter((item: any) => {
       return item.value.name.toLowerCase().includes(this.search) || item.value.value.toLowerCase().includes(this.search);
     });
+  }
+
+  sort(): void {
+    this.sortField = this.sortForm.value.sort || '';
+    this.showSettings();
   }
 }

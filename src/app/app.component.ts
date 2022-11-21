@@ -112,16 +112,16 @@ export class AppComponent {
     });
   }
 
-  getSorted(sourceList: any[]): any[] {
+  getSorted(sourceList: any[], sortField: string, ascending: boolean): any[] {
     var result: any[] = [];
     var orderedIndex: any[] = [];
     for (var i = 0; i < sourceList.length; i++) {
       var lastValue = 0, lastIndex = 0;
       sourceList.forEach((item: any, idx: any) => {
-        if (item.value.modified > lastValue) {
+        if (item.value[sortField] > lastValue.toString()) {
           if (orderedIndex.indexOf(idx) == -1) {
-            lastValue = item.value.modified;
-            lastIndex = idx;  
+            lastValue = item.value[sortField];
+            lastIndex = idx;
           }
         }
       });
@@ -130,6 +130,6 @@ export class AppComponent {
     for (var i = 0; i < orderedIndex.length; i++) {
       result.push(sourceList[orderedIndex[i]]);
     }
-    return result;
+    return ascending ? result.reverse() : result;
   }
 }

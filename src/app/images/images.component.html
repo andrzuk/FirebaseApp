@@ -181,6 +181,7 @@
                                             <label for="file" class="form-label">You are attempting to remove image:</label>
                                             <input type="text" class="form-control-plaintext" id="file" formControlName="file" readonly>
                                         </div>
+                                        <div *ngIf="message && !success" class="alert alert-danger" role="alert">{{ message }}</div>
                                         <div class="action mt-3">
                                             <button type="submit" class="btn btn-danger" [disabled]="pending" (click)="removeImage()">Remove</button>
                                             <button type="submit" class="btn btn-warning" (click)="cancelImage()">Cancel</button>

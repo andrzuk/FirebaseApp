@@ -224,6 +224,7 @@ export class ImagesComponent implements OnInit {
     const filename = this.imageForm.value.file || '';
     const storage = getStorage();
     const storageRef = ref(storage, filename);
+    storageRef.storage.maxOperationRetryTime = 10000;
     deleteObject(storageRef).then(() => {
       if (id) {
         this.firebase.removeImage(id).then(() => {

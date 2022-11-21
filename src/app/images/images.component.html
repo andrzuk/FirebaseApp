@@ -19,26 +19,22 @@
                                                 <input type="text" class="form-control" id="search" formControlName="search" (input)="filter()">
                                             </form>
                                         </div>
+                                        <div class="col-2 mb-1">
+                                            <div class="items-counter">
+                                                Items: <b>{{ imagesListSorted.length }}</b>
+                                            </div>
+                                        </div>
                                         <div class="col-1 mb-1">
                                             <div class="sort-label">
-                                                Sort by:
+                                                <i class="bi bi-sort-alpha-down"></i>
                                             </div>
                                         </div>
                                         <div class="col-3 mb-1">
                                             <form [formGroup]="sortForm">
                                                 <select class="form-control" id="sort" formControlName="sort" (change)="sort()">
-                                                    <option value="name" [selected]="sortField == 'name'">Filename</option>
-                                                    <option value="width" [selected]="sortField == 'width'">Width</option>
-                                                    <option value="height" [selected]="sortField == 'height'">Height</option>
-                                                    <option value="size" [selected]="sortField == 'size'">Size</option>
-                                                    <option value="modified" [selected]="sortField == 'modified'">Modified</option>
+                                                    <option *ngFor="let field of sortFields" value="{{ field.name }}" [selected]="sortField == field.name">{{ field.label }}</option>
                                                 </select>
                                             </form>
-                                        </div>
-                                        <div class="col-2 mb-1">
-                                            <div class="items-counter">
-                                                Items: <b>{{ imagesListSorted.length }}</b>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="table-responsive">

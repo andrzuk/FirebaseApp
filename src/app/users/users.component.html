@@ -16,24 +16,22 @@
                                         <input type="text" class="form-control" id="search" formControlName="search" (input)="filter()">
                                     </form>
                                 </div>
+                                <div class="col-2 mb-1">
+                                    <div class="items-counter">
+                                        Items: <b>{{ usersList.length }}</b>
+                                    </div>
+                                </div>
                                 <div class="col-1 mb-1">
                                     <div class="sort-label">
-                                        Sort by:
+                                        <i class="bi bi-sort-alpha-down"></i>
                                     </div>
                                 </div>
                                 <div class="col-3 mb-1">
                                     <form [formGroup]="sortForm">
                                         <select class="form-control" id="sort" formControlName="sort" (change)="sort()">
-                                            <option value="email" [selected]="sortField == 'email'">Email</option>
-                                            <option value="createdAt" [selected]="sortField == 'createdAt'">Created</option>
-                                            <option value="lastLoginAt" [selected]="sortField == 'lastLoginAt'">Logged</option>
+                                            <option *ngFor="let field of sortFields" value="{{ field.name }}" [selected]="sortField == field.name">{{ field.label }}</option>
                                         </select>
                                     </form>
-                                </div>
-                                <div class="col-2 mb-1">
-                                    <div class="items-counter">
-                                        Items: <b>{{ usersList.length }}</b>
-                                    </div>
                                 </div>
                             </div>
                             <div class="table-responsive">

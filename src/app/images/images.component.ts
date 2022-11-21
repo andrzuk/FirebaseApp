@@ -47,6 +47,13 @@ export class ImagesComponent implements OnInit {
   sortForm = new FormGroup({
     sort: new FormControl('')
   });
+  sortFields = [
+    { name: 'name', label: 'Filename'},
+    { name: 'width', label: 'Width'},
+    { name: 'height', label: 'Height'},
+    { name: 'size', label: 'Size'},
+    { name: 'modified', label: 'Modified'},
+  ];
   sortField: string = 'modified';
 
   settingsList: never | any = [];

@@ -37,6 +37,11 @@ export class SettingsComponent implements OnInit {
   sortForm = new FormGroup({
     sort: new FormControl('')
   });
+  sortFields = [
+    { name: 'name', label: 'Name'},
+    { name: 'value', label: 'Value'},
+    { name: 'modified', label: 'Modified'},
+  ];
   sortField: string = 'modified';
 
   constructor(private firebase: FirebaseService, private router: Router, private appComponent: AppComponent) { }

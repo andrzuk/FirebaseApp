@@ -29,6 +29,11 @@ export class UsersComponent implements OnInit {
   sortForm = new FormGroup({
     sort: new FormControl('')
   });
+  sortFields = [
+    { name: 'email', label: 'Email'},
+    { name: 'createdAt', label: 'Created'},
+    { name: 'lastLoginAt', label: 'Logged'},
+  ];
   sortField: string = 'lastLoginAt';
 
   constructor(private firebase: FirebaseService, private router: Router, private appComponent: AppComponent) { }

@@ -53,6 +53,12 @@ export class PagesComponent implements OnInit {
   sortForm = new FormGroup({
     sort: new FormControl('')
   });
+  sortFields = [
+    { name: 'type', label: 'Type'},
+    { name: 'title', label: 'Title'},
+    { name: 'content', label: 'Content'},
+    { name: 'modified', label: 'Modified'},
+  ];
   sortField: string = 'modified';
 
   constructor(private firebase: FirebaseService, private router: Router, private appComponent: AppComponent, private clipboard: Clipboard) { }

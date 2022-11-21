@@ -116,7 +116,7 @@ export class ImagesComponent implements OnInit {
   }
 
   showImages() {
-    this.resume = false;
+    this.resume = true;
     this.action = 'list';
     this.firebase.getImages().then((snapshot) => {
       this.imagesList = [];
@@ -129,13 +129,11 @@ export class ImagesComponent implements OnInit {
       this.imagesListSorted = this.appComponent.getSorted(this.imagesList, this.sortField, true);
       this.fullList = this.imagesListSorted;
       this.filter();
-      this.resume = true;
       this.success = true;
       setTimeout(() => {
         document.getElementById('search')?.focus();        
       }, 500);  
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });

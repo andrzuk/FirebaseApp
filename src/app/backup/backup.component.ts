@@ -63,7 +63,7 @@ export class BackupComponent implements OnInit {
   showPanel() {
     this.action = 'panel';
     this.pending = false;
-    this.resume = false;
+    this.resume = true;
     this.selectedFile = null;
     this.backupForm.controls.file.reset();
     this.backupForm.setValue({ file: '' });
@@ -96,7 +96,6 @@ export class BackupComponent implements OnInit {
         this.checkCompleted();
       }
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });
@@ -112,7 +111,6 @@ export class BackupComponent implements OnInit {
         this.checkCompleted();
       }
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });
@@ -128,7 +126,6 @@ export class BackupComponent implements OnInit {
         this.checkCompleted();
       }
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });
@@ -144,7 +141,6 @@ export class BackupComponent implements OnInit {
         this.checkCompleted();
       }
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });
@@ -160,7 +156,6 @@ export class BackupComponent implements OnInit {
         this.checkCompleted();
       }
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });
@@ -171,7 +166,6 @@ export class BackupComponent implements OnInit {
     if (this.backupFileContent.length == 5) {
         const output = JSON.stringify(this.backupFileContent);
         this.saveText(output, 'Backup_' + uid + '.json');
-        this.resume = true;
         this.success = true;
         this.message = 'Backup was saved successfully.';
         this.saved = true;
@@ -218,7 +212,6 @@ export class BackupComponent implements OnInit {
       });
     }
     this.restored = true;
-    this.resume = true;
     this.success = true;
     this.message = 'Backup was restored successfully.';
   }

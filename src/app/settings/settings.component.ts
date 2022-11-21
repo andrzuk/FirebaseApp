@@ -67,7 +67,7 @@ export class SettingsComponent implements OnInit {
   }
 
   showSettings() {
-    this.resume = false;
+    this.resume = true;
     this.action = 'list';
     this.firebase.getSettings().then((snapshot) => {
       this.settingsList = [];
@@ -80,13 +80,11 @@ export class SettingsComponent implements OnInit {
       this.settingsListSorted = this.appComponent.getSorted(this.settingsList, this.sortField, true);
       this.fullList = this.settingsListSorted;
       this.filter();
-      this.resume = true;
       this.success = true;
       setTimeout(() => {
         document.getElementById('search')?.focus();        
       }, 500);
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });

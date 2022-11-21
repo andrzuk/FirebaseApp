@@ -84,7 +84,7 @@ export class PagesComponent implements OnInit {
   }
 
   showPages() {
-    this.resume = false;
+    this.resume = true;
     this.action = 'list';
     this.firebase.getPages().then((snapshot) => {
       this.pagesList = [];
@@ -97,13 +97,11 @@ export class PagesComponent implements OnInit {
       this.pagesListSorted = this.appComponent.getSorted(this.pagesList, this.sortField, true);
       this.fullList = this.pagesListSorted;
       this.filter();
-      this.resume = true;
       this.success = true;
       setTimeout(() => {
         document.getElementById('search')?.focus();        
       }, 500);
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });
@@ -221,7 +219,7 @@ export class PagesComponent implements OnInit {
   }
 
   showArchives(page: any) {
-    this.resume = false;
+    this.resume = true;
     this.action = 'archives';
     this.message = '';
     this.firebase.getArchives().then((snapshot) => {
@@ -237,10 +235,8 @@ export class PagesComponent implements OnInit {
       if (page.value) {
         this.pageTitle = page.value.title;
       }
-      this.resume = true;
       this.success = true;
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });

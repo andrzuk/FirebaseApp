@@ -59,7 +59,7 @@ export class UsersComponent implements OnInit {
   }
 
   showUsers() {
-    this.resume = false;
+    this.resume = true;
     this.firebase.getUsers().then((snapshot) => {
       this.usersList = [];
       const users = snapshot.exportVal();
@@ -81,10 +81,8 @@ export class UsersComponent implements OnInit {
       setTimeout(() => {
         document.getElementById('search')?.focus();        
       }, 500);  
-      this.resume = true;
       this.success = true;
     }).catch((error) => {
-      this.resume = true;
       this.success = false;
       this.message = error.message;
     });

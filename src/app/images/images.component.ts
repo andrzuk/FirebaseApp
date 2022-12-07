@@ -141,8 +141,7 @@ export class ImagesComponent implements OnInit {
 
   addImage() {
     this.action = 'edit';
-    this.pending = false;
-    this.resume = false;
+    this.resume = true;
     this.selectedFile = null;
     this.imageForm.controls.file.reset();
     const uid = sha512.create().update((new Date()).toTimeString()).hex().substring(0, 32);

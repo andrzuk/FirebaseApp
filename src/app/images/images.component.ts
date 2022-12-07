@@ -173,7 +173,6 @@ export class ImagesComponent implements OnInit {
         return;
       }
       this.pending = true;
-      this.resume = false;
       this.success = true;
       this.message = 'Upload is being performed...';
       const storage = getStorage();
@@ -196,13 +195,11 @@ export class ImagesComponent implements OnInit {
           this.message = 'Upload has finished successfully.';
         }).catch((error) => {
           this.pending = false;
-          this.resume = true;
           this.success = false;
           this.message = error.message;
         });
       }).catch((error) => {
         this.pending = false;
-        this.resume = true;
         this.success = false;
         this.message = error.message;
       });
@@ -211,13 +208,11 @@ export class ImagesComponent implements OnInit {
 
   deleteImage(image: any) {
     this.action = 'delete';
-    this.resume = false;
     this.pending = true;
     this.firebase.getImage(image.key).then((snapshot) => {
       const key = snapshot.key;
       const image = snapshot.exportVal();
       this.imageForm.setValue({ id: key, file: image.name });
-      this.resume = true;
       this.pending = false;
     }).catch((error) => {});
   }
